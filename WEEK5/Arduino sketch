@@ -1,1 +1,29 @@
+#include <Arduino_LSM6DS3.h>
+
+void setup() {
+    Serial.begin(115200);
+    while (!Serial);
+    
+    if (!IMU.begin()) {
+        Serial.println("IMU initialization failed!");
+        while (1);
+    }
+}
+
+void loop() {
+    float gyro_x, gyro_y, gyro_z;
+    
+    if (IMU.gyroscopeAvailable()) {
+        IMU.readGyroscope(gyro_x, gyro_y, gyro_z);
+        Serial.print(millis()); // Timestamp
+        Serial.print(",");
+        Serial.print(gyro_x);
+        Serial.print(",");
+        Serial.print(gyro_y);
+        Serial.print(",");
+        Serial.println(gyro_z);
+    }
+    
+    delay(20); // 50Hz sampling rate
+}
 
