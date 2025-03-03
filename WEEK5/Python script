@@ -1,1 +1,102 @@
+import serial  # Import Serial Library
+import time  # Import time library
+import json  # Import JSON library
+import firebase_admin # Import Firebase library
+from firebase_admin import credentials, db # Import Firebase database
+import pandas as pd # Import Pandas library
+import matplotlib # Import Matplotlib library
 
+matplotlib.use('Agg')  # Use non-GUI backend
+import matplotlib.pyplot as plt # Import Matplotlib's pyplot
+
+databaseURL = 'https://mann-ce7ea-default-rtdb.firebaseio.com/' # Firebase database URL
+cred_obj = firebase_admin.credentials.Certificate(
+    'mann-ce7ea-firebase-adminsdk-fbsvc-dabbbd963c.json' # Firebase Admin SDK JSON file
+)
+default_app = firebase_admin.initialize_app(cred_obj, {
+	'databaseURL':databaseURL # Connect to Firebase database
+	})
+
+# Opening serial connection
+ser = serial.Serial('COM10', 115200) 
+
+# Firebase reference
+ref = db.reference("gyroscope_data")
+
+# CSV file setup
+csv_filename = "gyroscope_data.csv" # CSV filename
+with open(csv_filename, "w") as f:
+    f.write("timestamp,x,y,z\n")
+
+try:
+    while True:
+        line = ser.readline().decode().strip()
+        if line:
+            parts = line.split(",")
+            timestamp, x, y, z = parts[0], float(parts[1]), float(parts[2]), float(parts[3]) 
+
+            # Create JSON data
+            data = {"timestamp": timestamp, "x": x, "y": y, "z": z}
+            ref.push(data)  # Upload to Firebase
+            
+            # Append to CSV
+            with open(csv_filename, "a") as f:
+                f.write(f"{timestamp},{x},{y},{z}\n")
+
+            print(f"Data: {data}")
+
+except KeyboardInterrupt: # Stop data collection
+    print("Data collection stopped.")
+    ser.close()
+
+data = ref.get()
+
+# Converting Data to CSV
+df = pd.DataFrame(data.values())  
+df.to_csv("gyroscope_data.csv", index=False)
+
+# Ploting Graphs
+plt.figure(figsize=(10, 6))
+plt.plot(df["timestamp"], df["x"], label="X-axis")
+plt.plot(df["timestamp"], df["y"], label="Y-axis")
+plt.plot(df["timestamp"], df["z"], label="Z-axis")
+plt.legend()
+plt.title("Gyroscope Data Over Time")
+plt.savefig("gyro_plot1.png")
+
+df = pd.read_csv("gyroscope_data.csv")
+df = df.dropna()  # Remove empty fields
+df = df[df.applymap(lambda x: isinstance(x, (int, float))).all(1)]  # Keep only numeric values
+df.to_csv("gyroscope_data.csv", index=False)
+print("Data cleaned and saved!")
+
+# Read data
+df = pd.read_csv("gyroscope_data.csv")
+
+# Plot x, y, z separately
+plt.figure(figsize=(10, 6))
+
+plt.subplot(3, 1, 1)
+plt.plot(df["timestamp"], df["x"], label="X-axis", color="orange")
+plt.legend()
+
+plt.subplot(3, 1, 2)
+plt.plot(df["timestamp"], df["y"], label="Y-axis", color="yellow")
+plt.legend()
+
+plt.subplot(3, 1, 3)
+plt.plot(df["timestamp"], df["z"], label="Z-axis", color="red")
+plt.legend()
+
+plt.tight_layout()
+plt.savefig("gyro_plots1.png")
+# plt.show()
+
+# Combined plot
+plt.figure(figsize=(10, 4))
+plt.plot(df["timestamp"], df["x"], label="X", color="orange")
+plt.plot(df["timestamp"], df["y"], label="Y", color="yellow")
+plt.plot(df["timestamp"], df["z"], label="Z", color="red")
+plt.legend()
+plt.savefig("combined_plot1.png")
+# plt.show()
