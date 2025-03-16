@@ -1,0 +1,143 @@
+######## Arduino sketch #############
+#include <WiFiNINA.h>
+#include <PubSubClient.h>
+#include <Arduino_LSM6DS3.h> 
+
+// WiFi credentials
+const char* ssid = "MSI 7239";
+const char* password = "e646E{13";
+const char* mqttServer = "1a776ce7c0d840b8b3bcb88b7c85a11a.s1.eu.hivemq.cloud";
+const int mqttPort = 8883;
+const char* mqttUser = "ManshiMalik";
+const char* mqttPassword = "mannMalik13";
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+void setup() {
+  Serial.begin(9600);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println("Connected to WiFi");
+
+  client.setServer(mqtt_server, 1883);
+
+  if (!IMU.begin()) {
+    Serial.println("Failed to initialize IMU");
+    while (1);
+  }
+}
+
+void loop() {
+  if (!client.connected()) {
+    reconnect();
+  }
+
+  client.loop();
+
+  float x, y, z;
+  if (IMU.gyroscopeAvailable()) {
+    IMU.readGyroscope(x, y, z);
+
+    String payload = "{";
+    payload += "\"x\": " + String(x) + ", ";
+    payload += "\"y\": " + String(y) + ", ";
+    payload += "\"z\": " + String(z) + "}";
+
+    client.publish("sit225/gyroscope", payload.c_str());
+    delay(1000);
+  }
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    if (client.connect("ArduinoNano33")) {
+      client.subscribe("sit225/gyroscope");
+    } else {
+      delay(5000);
+    }
+  }
+}
+
+#########python script to Store in MongoDB an coucheDB ##############
+# mongoDB
+import pandas as pd
+from pymongo import MongoClient
+
+# Corrected MongoDB connection string (No < > around the password)
+connection_string = "mongodb+srv://boybuble6:fXoGtR9aMozd8ZXn@cluster0.iikfx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+#Connect to MongoDB
+client = MongoClient(connection_string)
+db = client["taskD"]  # Make sure "taskD" is the correct database name
+collection = db["manshi"]  #Changed collection name (Avoids special characters)
+
+#Read CSV file
+csv_file = "data.csv"  # Ensure the file is in the same directory as this script
+df = pd.read_csv(csv_file)
+
+# Convert DataFrame to dictionary format for MongoDB
+data = df.to_dict(orient="records")
+
+# Insert data into MongoDB
+if data:  # Ensure data is not empty before inserting
+    collection.insert_many(data)
+    print(f"Inserted {len(data)} records successfully into MongoDB!")
+else:
+    print("CSV file is empty, no records inserted.")
+
+
+# coucheDB
+import paho.mqtt.client as mqtt
+import json
+import couchdb
+import pandas as pd
+import matplotlib.pyplot as plt
+import time
+
+# CouchDB Connection
+couch = couchdb.Server("http://admin:manshi13@localhost:5984/")
+if "gyroscope" in couch:
+    db = couch["gyroscope"]
+else:
+    db = couch.create("gyroscope")
+
+# MQTT Callback
+
+def on_message(client, userdata, msg):
+    data = json.loads(msg.payload)
+
+    # Store in CouchDB
+    db.save(data)
+
+    # Append to CSV
+    with open("data.csv", "a") as f:
+        f.write(f"{data['x']},{data['y']},{data['z']}\n")
+
+    print("Data Received:", data)
+
+# MQTT Connection
+client = mqtt.Client()
+client.on_message = on_message
+client.connect("broker.hivemq.com", 1883, 60)
+client.subscribe("sit225/gyroscope")
+
+client.loop_start()
+
+# Run for 30 mins
+time.sleep(1800)
+client.loop_stop()
+
+# Data Cleaning and Visualization
+
+data = pd.read_csv("data.csv", names=["x", "y", "z"])
+data.plot()
+plt.title("Gyroscope Data (x, y, z)")
+plt.show()
+
+
+
