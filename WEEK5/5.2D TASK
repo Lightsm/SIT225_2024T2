@@ -1,143 +1,218 @@
-######## Arduino sketch #############
+# ARDUINO CODE #
+#include <Arduino_LSM6DS3.h>   
 #include <WiFiNINA.h>
 #include <PubSubClient.h>
-#include <Arduino_LSM6DS3.h> 
 
-// WiFi credentials
-const char* ssid = "MSI 7239";
-const char* password = "e646E{13";
+// WiFi Credentials
+const char* ssid = "TM";
+const char* password = "TM200513";
+
+// MQTT Broker Details
 const char* mqttServer = "1a776ce7c0d840b8b3bcb88b7c85a11a.s1.eu.hivemq.cloud";
 const int mqttPort = 8883;
 const char* mqttUser = "ManshiMalik";
 const char* mqttPassword = "mannMalik13";
 
-WiFiClient espClient;
-PubSubClient client(espClient);
+// MQTT Topic
+const char* mqttTopic = "nyanashi";
+
+WiFiSSLClient wifiClient; 
+PubSubClient client(wifiClient);
 
 void setup() {
-  Serial.begin(9600);
-  WiFi.begin(ssid, password);
-
-  while (WiFi.status() != WL_CONNECTED) {
+    Serial.begin(115200);
     delay(1000);
+
+    // Connect to WiFi
     Serial.println("Connecting to WiFi...");
-  }
-  Serial.println("Connected to WiFi");
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.print(".");
+    }
+    Serial.println("\nWiFi Connected!");
+    Serial.print("IP Address: ");
+    Serial.println(WiFi.localIP());
 
-  client.setServer(mqtt_server, 1883);
+    // Connect to MQTT
+    client.setServer(mqttServer, mqttPort);
+    Serial.println("Connecting to MQTT...");
 
-  if (!IMU.begin()) {
-    Serial.println("Failed to initialize IMU");
-    while (1);
-  }
+    while (!client.connected()) {
+        if (client.connect("304eb72112904f44bcfe2947ba22c412", mqttUser, mqttPassword)) {
+            Serial.println("Connected to MQTT Broker!");
+        } else {
+            Serial.print("Failed! State: ");
+            Serial.println(client.state());
+            delay(5000);
+        }
+    }
+
+    // Initialize IMU Sensor
+    if (!IMU.begin()) {
+        Serial.println("IMU Sensor not detected!");
+        while (1);
+    }
 }
 
 void loop() {
-  if (!client.connected()) {
-    reconnect();
-  }
+    float x, y, z;
+    
+    if (IMU.gyroscopeAvailable()) {
+        IMU.readGyroscope(x, y, z);
+        
+        // Get Timestamp
+        unsigned long timestamp = millis();
 
-  client.loop();
+        // Create JSON Payload
+        String new = "{ \"x\": " + String(x) + ", \"y\": " + String(y) + ", \"z\": " + String(z) + ", \"timestamp\": " + String(timestamp) + " }";
 
-  float x, y, z;
-  if (IMU.gyroscopeAvailable()) {
-    IMU.readGyroscope(x, y, z);
-
-    String payload = "{";
-    payload += "\"x\": " + String(x) + ", ";
-    payload += "\"y\": " + String(y) + ", ";
-    payload += "\"z\": " + String(z) + "}";
-
-    client.publish("sit225/gyroscope", payload.c_str());
-    delay(1000);
-  }
-}
-
-void reconnect() {
-  while (!client.connected()) {
-    if (client.connect("ArduinoNano33")) {
-      client.subscribe("sit225/gyroscope");
-    } else {
-      delay(5000);
+        // Publish Data
+        if (client.publish(mqttTopic, payload.c_str())) {
+            Serial.println("Sending data to Python: " + new);
+        } else {
+            Serial.println("Failed to send data!");
+        }
     }
-  }
+    
+    client.loop();
+    delay(1000);  
 }
 
-#########python script to Store in MongoDB an coucheDB ##############
-# mongoDB
-import pandas as pd
-from pymongo import MongoClient
-
-# Corrected MongoDB connection string (No < > around the password)
-connection_string = "mongodb+srv://boybuble6:fXoGtR9aMozd8ZXn@cluster0.iikfx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
-#Connect to MongoDB
-client = MongoClient(connection_string)
-db = client["taskD"]  # Make sure "taskD" is the correct database name
-collection = db["manshi"]  #Changed collection name (Avoids special characters)
-
-#Read CSV file
-csv_file = "data.csv"  # Ensure the file is in the same directory as this script
-df = pd.read_csv(csv_file)
-
-# Convert DataFrame to dictionary format for MongoDB
-data = df.to_dict(orient="records")
-
-# Insert data into MongoDB
-if data:  # Ensure data is not empty before inserting
-    collection.insert_many(data)
-    print(f"Inserted {len(data)} records successfully into MongoDB!")
-else:
-    print("CSV file is empty, no records inserted.")
 
 
-# coucheDB
+# PYTHON CODE FOR MONGO DB # 
+#  MQTT data to mongo  ****** csv file ***********
+
 import paho.mqtt.client as mqtt
+import pymongo
 import json
-import couchdb
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 import time
 
-# CouchDB Connection
-couch = couchdb.Server("http://admin:manshi13@localhost:5984/")
-if "gyroscope" in couch:
-    db = couch["gyroscope"]
-else:
-    db = couch.create("gyroscope")
+# MQTT and MongoDB Configuration from Code 1
+MQTT_BROKER = "1a776ce7c0d840b8b3bcb88b7c85a11a.s1.eu.hivemq.cloud"
+MQTT_PORT = 8883
+MQTT_USER = "ManshiMalik"  # MQTT username 
+MQTT_PASS = "mannMalik13"  # MQTT password 
+MQTT_TOPIC = "manshi"
 
-# MQTT Callback
+MONGO_URI = "mongodb+srv://manshimalik:19861977mongodb@cluster0.1agjw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+mongo_client = pymongo.MongoClient(MONGO_URI)
+db = mongo_client["Dtask5"]  # Database name
+collection = db["5D"]  # Collection name
 
-def on_message(client, userdata, msg):
-    data = json.loads(msg.payload)
+data_list = []
 
-    # Store in CouchDB
-    db.save(data)
+# Callback when MQTT connects
+def on_connect(client, userdata, flags, rc, properties=None):
+    if rc == 0:
+        print("Connected to MQTT!")
+        client.subscribe(MQTT_TOPIC)
+    else:
+        print(f"Connection failed with code {rc}")
 
-    # Append to CSV
-    with open("data.csv", "a") as f:
-        f.write(f"{data['x']},{data['y']},{data['z']}\n")
+# Callback when a message is received
+def on_message(client, userdata, message):
+    try:
+        data = json.loads(message.payload.decode("utf-8"))
+        print(f"Received: {data}")
 
-    print("Data Received:", data)
+        # Store in MongoDB
+        collection.insert_one(data)
+        data_list.append(data)
 
-# MQTT Connection
-client = mqtt.Client()
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Initialize MQTT Client
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+client.username_pw_set(MQTT_USER, MQTT_PASS)
+client.tls_set()
+client.on_connect = on_connect
 client.on_message = on_message
-client.connect("broker.hivemq.com", 1883, 60)
-client.subscribe("sit225/gyroscope")
 
+print("Connecting to MQTT...")
+client.connect(MQTT_BROKER, MQTT_PORT)
+
+print("Listening for messages (Run for at least 5 minutes)...")
 client.loop_start()
 
-# Run for 30 mins
-time.sleep(1800)
+time.sleep(1800)  # Collecting data for 30 minutes
+
 client.loop_stop()
+client.disconnect()
 
-# Data Cleaning and Visualization
-
-data = pd.read_csv("data.csv", names=["x", "y", "z"])
-data.plot()
-plt.title("Gyroscope Data (x, y, z)")
-plt.show()
-
+# Save collected data to CSV
+df = pd.DataFrame(data_list)
+csv_filename = "data.csv"
+df.to_csv(csv_filename, index=False)
+print(f"Data saved to {csv_filename}")
 
 
+
+
+#  python code for couche DB #
+import paho.mqtt.client as mqtt
+import couchdb
+import json
+import time
+
+MQTT_BROKER = "1a776ce7c0d840b8b3bcb88b7c85a11a.s1.eu.hivemq.cloud"
+MQTT_PORT = 8883
+MQTT_TOPIC = "manshi"
+MQTT_USERNAME = "ManshiMalik"
+MQTT_PASSWORD = "mannMalik13"
+
+COUCHDB_URL = "http://localhost:5984"
+COUCHDB_USER = "manshi"
+COUCHDB_PASS = "1986"
+
+# Connect to CouchDB
+client_couch = couchdb.Server(COUCHDB_URL)
+client_couch.resource.credentials = (COUCHDB_USER, COUCHDB_PASS)
+
+db_name = "task5D"
+
+if db_name in client_couch:
+    db = client_couch[db_name]
+    print(f"Connected to existing database: {db_name}")
+else:
+    db = client_couch.create(db_name)
+    print(f"Database '{db_name}' created.")
+
+# MQTT Callback Functions
+def on_connect(client, userdata, flags, rc, properties=None):
+    if rc == 0:
+        print("Connected to MQTT!")
+        client.subscribe(MQTT_TOPIC)
+    else:
+        print(f"Connection failed with code {rc}")
+
+def on_message(client, userdata, message):
+    try:
+        data = json.loads(message.payload.decode("utf-8"))
+        print(f"Received MQTT data: {data}")
+
+        doc_id, doc_rev = db.save(data)
+        print(f"Data saved to CouchDB with id {doc_id}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+client_mqtt = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+client_mqtt.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
+
+# Fix TLS issue
+client_mqtt.tls_set(certfile=None, keyfile=None, cert_reqs=mqtt.ssl.CERT_NONE)
+client_mqtt.tls_insecure_set(True)
+
+client_mqtt.on_connect = on_connect
+client_mqtt.on_message = on_message
+
+print("MQTT connecting...")
+client_mqtt.connect(MQTT_BROKER, MQTT_PORT)
+
+client_mqtt.loop_forever()
