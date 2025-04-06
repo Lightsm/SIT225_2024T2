@@ -1,1 +1,218 @@
+(❁´◡`❁) BOKEH  and STREAMLIT (❁´◡`❁) 
 
+from bokeh.io import curdoc
+from bokeh.models import ColumnDataSource, Select, MultiSelect, Slider, Button
+from bokeh.layouts import column, row
+from bokeh.plotting import figure
+from bokeh.models.widgets import DataTable, TableColumn, NumberFormatter
+import pandas as pd
+from numpy import histogram
+
+# Load data
+df = pd.read_csv("data.csv", names=["timestamp", "x", "y", "z"])
+
+# Data source
+source = ColumnDataSource(data=df)
+
+# Widgets
+graph_type_select = Select(title="Graph Type", value="Line Chart",
+                           options=["Line Chart", "Scatter Plot", "Distribution Plot", "Histogram"])
+
+variable_select = MultiSelect(title="Select Data Variables",
+                              options=["x", "y", "z"],
+                              value=["x", "y", "z"])
+
+sample_slider = Slider(title="Number of Samples to Display", start=1, end=len(df), value=100, step=1)
+
+prev_button = Button(label="⬅ Previous")
+next_button = Button(label="Next ➡")
+
+# State
+start_index = 0
+
+# Data table
+columns = [TableColumn(field=col, title=col, formatter=NumberFormatter(format="0.0000")) for col in ["x", "y", "z"]]
+data_table = DataTable(source=source, columns=columns, width=600, height=200)
+
+# Plot
+plot = figure(title="Sensor Data", x_axis_label="timestamp", y_axis_label="value", width=800, height=400)
+plot.legend.click_policy = "hide"
+
+# Predefined color palette
+color_palette = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"]
+
+# Update functions
+def update_data():
+    global start_index
+    end_index = start_index + sample_slider.value
+    sub_df = df.iloc[start_index:end_index]
+    source.data = sub_df.to_dict("list")
+    update_plot(sub_df)
+
+def update_plot(sub_df):
+    plot.renderers.clear()
+    plot.title.text = f"{graph_type_select.value} Visualization"
+    variables = variable_select.value
+
+    if not variables:
+        return
+
+    for i, var in enumerate(variables):
+        color = color_palette[i % len(color_palette)]
+        if graph_type_select.value == "Line Chart":
+            plot.line(sub_df["timestamp"], sub_df[var], legend_label=var, line_width=2, color=color)
+        elif graph_type_select.value == "Scatter Plot":
+            plot.circle(sub_df["timestamp"], sub_df[var], legend_label=var, size=7, color=color)
+        elif graph_type_select.value in ["Distribution Plot", "Histogram"]:
+            hist, edges = histogram(sub_df[var], bins=20)
+            plot.quad(top=hist, bottom=0, left=edges[:-1], right=edges[1:], alpha=0.5, legend_label=var, color=color)
+
+    plot.legend.click_policy = "hide"
+
+# Button callbacks
+def prev_callback():
+    global start_index
+    start_index = max(0, start_index - sample_slider.value)
+    update_data()
+
+def next_callback():
+    global start_index
+    start_index = min(len(df) - sample_slider.value, start_index + sample_slider.value)
+    update_data()
+
+# Widget callbacks
+def widget_callback(attr, old, new):
+    update_data()
+
+# Attach callbacks
+graph_type_select.on_change("value", widget_callback)
+variable_select.on_change("value", widget_callback)
+sample_slider.on_change("value", widget_callback)
+prev_button.on_click(prev_callback)
+next_button.on_click(next_callback)
+
+# Layout
+layout = column(
+    row(graph_type_select, variable_select),
+    row(sample_slider, prev_button, next_button),
+    plot,
+    data_table
+)
+
+# Add to Bokeh doc
+curdoc().add_root(layout)
+curdoc().title = "Bokeh Sensor Dashboard"
+
+# Initial display
+update_data()
+
+°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+
+import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+import time
+
+# Function to load data
+@st.cache_data
+def load_data():
+    df = pd.read_csv("data.csv", names=["timestamp", "x", "y", "z"])
+    return df
+
+# Load dataset
+df = load_data()
+
+# Streamlit App Layout
+st.title("Interactive Sensor Data Dashboard")
+
+# Sidebar Controls
+st.sidebar.header(" Visualization Settings")
+
+# Graph Type Selection 
+graph_type = st.sidebar.selectbox("Select Graph Type", ["Line Chart", "Scatter Plot", "Distribution Plot", "Histogram"])
+
+# Select Data Variables
+selected_vars = st.sidebar.multiselect("Select Data Variables", ["x", "y", "z"], default=["x", "y", "z"])
+
+# User input for number of data samples to display
+num_samples = st.sidebar.number_input("Enter number of samples to display", min_value=1, max_value=len(df), value=10, step=1)
+
+# Navigation buttons
+if "start_index" not in st.session_state:
+    st.session_state.start_index = 0
+
+prev_button = st.sidebar.button("⬅ Previous")
+next_button = st.sidebar.button("Next ➡")
+
+if prev_button:
+    st.session_state.start_index = max(0, st.session_state.start_index - num_samples)
+
+if next_button:
+    st.session_state.start_index = min(len(df) - num_samples, st.session_state.start_index + num_samples)
+
+# Filter data for display
+df_display = df.iloc[st.session_state.start_index : st.session_state.start_index + num_samples]
+
+# Display raw data table
+st.subheader(" Data Summary")
+st.write(df_display.describe())
+
+# Plot the selected graph type
+st.subheader(f" {graph_type} Visualization")
+
+fig, ax = plt.subplots(figsize=(10, 5))
+
+if graph_type == "Line Chart":
+    for var in selected_vars:
+        ax.plot(df_display["timestamp"], df_display[var], label=f"{var}-axis")
+    ax.set_xlabel("Timestamp")
+    ax.set_ylabel("Sensor Values")
+    ax.legend()
+    ax.grid(True)
+    st.pyplot(fig)
+
+elif graph_type == "Scatter Plot":
+    for var in selected_vars:
+        ax.scatter(df_display["timestamp"], df_display[var], label=f"{var}-axis", alpha=0.7)
+    ax.set_xlabel("Timestamp")
+    ax.set_ylabel("Sensor Values")
+    ax.legend()
+    ax.grid(True)
+    st.pyplot(fig)
+
+elif graph_type == "Distribution Plot":
+    if selected_vars:
+        for var in selected_vars:
+            sns.histplot(df_display[var], kde=True, label=f"{var}-axis", alpha=0.6)
+        plt.xlabel("Sensor Values")
+        plt.legend()
+        st.pyplot(plt)
+    else:
+        st.warning("Please select at least one variable to display the distribution plot.")
+
+elif graph_type == "Histogram":
+    if selected_vars:
+        fig, ax = plt.subplots(figsize=(10, 5))
+        for var in selected_vars:
+            ax.hist(df_display[var], bins=20, alpha=0.6, label=f"{var}-axis")
+        ax.set_xlabel("Sensor Values")
+        ax.set_ylabel("Frequency")
+        ax.legend()
+        st.pyplot(fig)
+    else:
+        st.warning("Please select at least one variable to display the histogram.")
+
+# Continuous Sensor Data Update
+st.sidebar.subheader(" Auto-Update Settings")
+auto_refresh = st.sidebar.checkbox("Enable Auto-Refresh", value=False)
+
+if auto_refresh:
+    refresh_interval = st.sidebar.slider("Select Refresh Interval (seconds)", 5, 30, 10)
+    
+    while auto_refresh:
+        time.sleep(refresh_interval)
+        df = load_data()
+        df_display = df.iloc[st.session_state.start_index : st.session_state.start_index + num_samples]
+        st.experimental_rerun()  
