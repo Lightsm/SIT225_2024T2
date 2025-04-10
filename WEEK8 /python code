@@ -1,0 +1,63 @@
+import pandas as pd
+import numpy as np
+from dash import Dash, dcc, html, Output, Input
+import plotly.graph_objs as go
+
+def create_smooth_dash_app(data: pd.DataFrame, sample_window: int = 100, update_rate_ms: int = 100):
+
+    app = Dash(__name__)
+    app.title = "Smooth Accelerometer Viewer"
+
+    shared_state = {"pointer": 0}
+
+    def blank_fig():
+        return go.Figure(layout=go.Layout(
+            xaxis=dict(title='Time'),
+            yaxis=dict(title='Acceleration'),
+            margin=dict(l=40, r=10, t=40, b=40)
+        ))
+
+    app.layout = html.Div([
+        html.H2("Live Accelerometer Data (Smooth Dash Update)"),
+        dcc.Graph(id='live-accel-graph', figure=blank_fig()),
+        dcc.Interval(id='interval-update', interval=update_rate_ms, n_intervals=0)
+    ])
+
+    @app.callback(
+        Output('live-accel-graph', 'figure'),
+        Input('interval-update', 'n_intervals')
+    )
+    def update_graph(n):
+        ptr = shared_state["pointer"]
+        end = ptr + sample_window
+
+        if end >= len(data):
+            end = len(data)
+            ptr = max(0, end - sample_window)
+
+        subset = data.iloc[ptr:end]
+        shared_state["pointer"] = ptr + 1  # Smooth, frame-by-frame
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(y=subset['x'], mode='lines', name='X'))
+        fig.add_trace(go.Scatter(y=subset['y'], mode='lines', name='Y'))
+        fig.add_trace(go.Scatter(y=subset['z'], mode='lines', name='Z'))
+
+        fig.update_layout(
+            xaxis=dict(title="Time"),
+            yaxis=dict(title="Acceleration"),
+            margin=dict(l=40, r=10, t=40, b=40),
+            transition=dict(duration=100, easing='cubic-in-out')  # smooth transition
+        )
+        return fig
+
+    return app
+
+if __name__ == '__main__':
+   
+    df = pd.read_csv("week8.csv")  # CSV should have 'x', 'y', 'z' columns
+
+    df.fillna(0, inplace=True)
+
+    app = create_smooth_dash_app(df, sample_window=100, update_rate_ms=100)
+    app.run_server(debug=True)
