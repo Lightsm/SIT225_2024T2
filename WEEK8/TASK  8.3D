@@ -1,0 +1,658 @@
+CSV FILE: AND CODE FILE:
+CSV:
+1_20250503083111,0
+2_20250503083114,2
+3_20250503083116,2
+4_20250503083117,2
+5_20250503083119,2
+6_20250503083120,2
+7_20250503083121,2
+8_20250503083122,2
+9_20250503083123,2
+10_20250503083124,2
+11_20250503083125,2
+12_20250503083126,2
+13_20250503083127,2
+14_20250503083128,2
+15_20250503083129,2
+16_20250503083130,2
+17_20250503083131,2
+18_20250503083132,2
+19_20250503083133,2
+20_20250503083135,0
+21_20250503083136,0
+22_20250503083137,0
+23_20250503083139,0
+24_20250503083140,0
+25_20250503083142,0
+26_20250503083143,0
+27_20250503083144,0
+28_20250503083145,0
+29_20250503083146,0
+30_20250503083147,0
+31_20250503083148,0
+32_20250503083149,0
+33_20250503083150,0
+34_20250503083151,0
+35_20250503083153,0
+36_20250503083154,1
+37_20250503083156,1
+38_20250503083157,1
+39_20250503083159,1
+40_20250503083200,1
+41_20250503083201,1
+42_20250503083202,1
+43_20250503083204,1
+44_20250503083205,1
+45_20250503083206,1
+46_20250503083208,1
+47_20250503083212,1
+48_20250503083213,1
+49_20250503083215,1
+50_20250503083216,1
+51_20250503083217,1
+52_20250503083218,1
+53_20250503083219,1
+54_20250503083220,1
+55_20250503083221,1
+56_20250503083222,1
+57_20250503083223,1
+58_20250503083224,1
+59_20250503083225,1
+60_20250503083226,1
+61_20250503083227,1
+62_20250503083228,1
+63_20250503083229,0
+64_20250503083230,0
+65_20250503083231,0
+66_20250503083232,0
+67_20250503083233,0
+68_20250503083234,0
+69_20250503083235,0
+70_20250503083236,0
+71_20250503083238,0
+72_20250503083240,0
+73_20250503083241,0
+74_20250503083242,0
+75_20250503083243,0
+76_20250503083244,0
+77_20250503083246,0
+78_20250503083247,0
+79_20250503083248,0
+80_20250503083249,0
+81_20250503083251,0
+82_20250503083252,0
+83_20250503083253,0
+84_20250503083254,0
+85_20250503083255,0
+86_20250503083256,0
+87_20250503083257,0
+88_20250503083258,0
+89_20250503083259,0
+90_20250503083300,0
+91_20250503083301,0
+92_20250503083302,0
+93_20250503083304,2
+94_20250503083305,2
+95_20250503083306,2
+96_20250503083307,2
+97_20250503083322,1
+98_20250503083323,1
+99_20250503083324,1
+100_20250503083333,1
+101_20250503083334,1
+102_20250503083336,0
+103_20250503083337,0
+104_20250503083345,0
+105_20250503083346,0
+106_20250503083347,0
+107_20250503083348,0
+108_20250503083357,2
+109_20250503083358,2
+110_20250503083359,2
+111_20250503083400,2
+112_20250503083401,2
+113_20250503083402,2
+114_20250503083409,2
+115_20250503083410,0
+116_20250503083411,0
+117_20250503083412,0
+118_20250503083414,0
+119_20250503083421,0
+120_20250503083422,0
+121_20250503083423,0
+122_20250503083424,0
+123_20250503083425,0
+124_20250503083426,0
+125_20250503083434,2
+126_20250503083435,2
+127_20250503083436,2
+128_20250503083437,2
+129_20250503083438,2
+130_20250503083439,2
+131_20250503083445,2
+132_20250503083446,2
+133_20250503083447,2
+134_20250503083449,2
+135_20250503083450,1
+136_20250503083457,1
+137_20250503083458,1
+138_20250503083459,1
+139_20250503083500,1
+140_20250503083502,1
+141_20250503083503,1
+142_20250503083509,2
+143_20250503083510,2
+144_20250503083521,2
+145_20250503083522,2
+146_20250503083523,2
+147_20250503083525,2
+148_20250503083533,2
+149_20250503083534,2
+150_20250503083536,2
+151_20250503083537,2
+152_20250503083545,0
+153_20250503083546,0
+154_20250503083547,0
+155_20250503083548,0
+156_20250503083549,0
+157_20250503083550,0
+158_20250503083557,0
+159_20250503083559,0
+160_20250503083600,0
+161_20250503083601,0
+162_20250503083602,0
+163_20250503083603,0
+164_20250503083610,0
+165_20250503083611,0
+166_20250503083612,0
+167_20250503083613,0
+168_20250503083614,0
+169_20250503083615,0
+170_20250503083623,2
+171_20250503083624,2
+172_20250503083625,2
+173_20250503083626,2
+174_20250503083627,2
+175_20250503083628,2
+176_20250503083635,2
+177_20250503083636,2
+178_20250503083637,1
+179_20250503083638,1
+180_20250503083639,1
+181_20250503083640,1
+182_20250503083648,1
+183_20250503083650,1
+184_20250503083652,1
+185_20250503083700,1
+186_20250503083701,1
+187_20250503083702,1
+188_20250503083703,1
+189_20250503083704,1
+190_20250503083705,1
+191_20250503083712,2
+192_20250503083714,2
+193_20250503083715,2
+194_20250503083716,2
+195_20250503083717,2
+196_20250503083724,2
+197_20250503083725,2
+198_20250503083727,1
+199_20250503083728,1
+200_20250503083729,1
+201_20250503083736,1
+202_20250503083737,1
+203_20250503083738,1
+204_20250503083739,1
+205_20250503083741,1
+206_20250503083748,2
+207_20250503083749,2
+208_20250503083750,2
+209_20250503083751,2
+210_20250503083752,2
+211_20250503083753,2
+212_20250503083801,0
+213_20250503083802,0
+214_20250503083803,0
+215_20250503083804,0
+216_20250503083805,0
+217_20250503083814,0
+218_20250503083815,0
+219_20250503083816,0
+220_20250503083817,0
+221_20250503083818,0
+222_20250503083826,2
+223_20250503083828,2
+224_20250503083829,2
+225_20250503083830,2
+226_20250503083839,0
+227_20250503083840,0
+228_20250503083841,0
+229_20250503083852,0
+230_20250503083854,0
+231_20250503083855,0
+232_20250503083903,2
+233_20250503083904,2
+234_20250503083905,2
+235_20250503083906,2
+236_20250503083910,2
+237_20250503083911,2
+238_20250503083913,2
+239_20250503083914,2
+240_20250503083915,2
+241_20250503083916,2
+242_20250503083917,0
+243_20250503083918,0
+244_20250503083919,0
+245_20250503083920,0
+246_20250503083921,0
+247_20250503083922,0
+248_20250503083923,0
+249_20250503083924,0
+250_20250503083925,0
+251_20250503083926,0
+252_20250503083927,0
+253_20250503083928,0
+254_20250503083929,0
+255_20250503083931,0
+256_20250503083932,0
+257_20250503083934,0
+258_20250503083935,0
+259_20250503083936,0
+260_20250503083937,0
+261_20250503083938,0
+262_20250503083939,0
+263_20250503083941,0
+264_20250503083942,0
+265_20250503083943,0
+266_20250503083944,0
+267_20250503083945,0
+268_20250503083947,0
+269_20250503083948,0
+270_20250503083950,0
+271_20250503083951,0
+272_20250503083952,0
+273_20250503083953,0
+274_20250503083954,0
+275_20250503083955,0
+276_20250503083956,0
+277_20250503083957,0
+278_20250503083958,0
+279_20250503083959,0
+280_20250503084001,0
+281_20250503084002,0
+282_20250503084004,0
+283_20250503084006,0
+284_20250503084007,0
+285_20250503084008,0
+286_20250503084009,0
+287_20250503084010,0
+288_20250503084011,0
+289_20250503084012,0
+290_20250503084013,0
+291_20250503084015,1
+292_20250503084016,1
+293_20250503084017,1
+294_20250503084018,1
+295_20250503084019,1
+296_20250503084020,1
+297_20250503084021,1
+298_20250503084022,1
+299_20250503084023,1
+300_20250503084025,1
+301_20250503084026,1
+302_20250503084028,1
+303_20250503084029,1
+304_20250503084031,1
+305_20250503084032,1
+306_20250503084033,1
+307_20250503084035,1
+308_20250503084036,1
+309_20250503084038,1
+310_20250503084040,1
+311_20250503084041,1
+
+PYTHON CODE: 
+import sys
+import time
+import traceback
+import os
+import csv
+import pandas as pd
+import plotly.graph_objs as go
+from dash import Dash, dcc, html, Input, Output, callback_context
+from arduino_iot_cloud import ArduinoCloudClient
+from threading import Thread, Lock
+from datetime import datetime
+import cv2
+import base64
+from io import BytesIO
+from PIL import Image
+import glob
+import atexit
+import random
+
+# Arduino IoT credentials
+DEVICE_ID = "fe565aeb-ea8b-4c56-8c6e-634e3eb7ca63"
+SECRET_KEY = "hXrJ9LhZDn8FXpeyaoj1BLLEa"
+
+# Configuration
+ACTIVITY_DURATION = (15, 20)  # 15-20 seconds per activity
+ACTIVITIES = {
+    0: "no-activity",
+    1: "waving",
+    2: "shaking"
+}
+
+# Global variables with thread-safe locks
+data_lock = Lock()
+cur_data = []  # Stores recent accelerometer readings
+all_data = []  # Stores all collected data
+sequence_number = 1
+last_capture_time = time.time()
+is_running = True
+current_activity = 0  # Default to no-activity
+x, y, z = None, None, None  # Accelerometer values
+activity_start_time = time.time()
+current_activity_duration = random.randint(*ACTIVITY_DURATION)
+
+# Create directories
+os.makedirs('data', exist_ok=True)
+os.makedirs('images', exist_ok=True)
+
+# Webcam setup
+cap = cv2.VideoCapture(0)
+if not cap.isOpened():
+    print("Error: Could not open webcam")
+    sys.exit(1)
+
+# Initialize annotations file
+if not os.path.exists('annotations.csv'):
+    with open('taskd.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['filename', 'activity'])
+
+# Arduino Cloud callbacks
+def on_accelerometer_x_changed(client, value):
+    global x
+    x = value
+
+def on_accelerometer_y_changed(client, value):
+    global y
+    y = value
+
+def on_accelerometer_z_changed(client, value):
+    global z
+    z = value
+
+def start_data_stream():
+    global cur_data, all_data, x, y, z, is_running
+
+    try:
+        client = ArduinoCloudClient(device_id=DEVICE_ID, username=DEVICE_ID, password=SECRET_KEY, sync_mode=True)
+        client.register("py_x", value=None, on_write=on_accelerometer_x_changed)
+        client.register("py_y", value=None, on_write=on_accelerometer_y_changed)
+        client.register("py_z", value=None, on_write=on_accelerometer_z_changed)
+        client.start()
+
+        while is_running:
+            if x is not None and y is not None and z is not None:
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+                data_point = [timestamp, x, y, z]
+                
+                with data_lock:
+                    cur_data.append(data_point)
+                    all_data.append(data_point)
+                    
+                    if len(cur_data) > 50:
+                        cur_data.pop(0)
+                
+                x, y, z = None, None, None
+
+            client.update()
+
+    except Exception as e:
+        print("Error in data stream:")
+        traceback.print_exc()
+
+def capture_and_save_data():
+    global all_data, sequence_number, last_capture_time, current_activity
+    global activity_start_time, current_activity_duration
+    
+    while is_running:
+        current_time = time.time()
+        
+        # Check if it's time to switch activities
+        if current_time - activity_start_time >= current_activity_duration:
+            current_activity = random.choice(list(ACTIVITIES.keys()))
+            activity_start_time = current_time
+            current_activity_duration = random.randint(*ACTIVITY_DURATION)
+            print(f"Switched to activity: {ACTIVITIES[current_activity]} for {current_activity_duration} seconds")
+        
+        # Save data every second
+        if current_time - last_capture_time >= 1 and is_running:
+            last_capture_time = current_time
+            
+            if not all_data:
+                continue
+                
+            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+            filename_base = f"{sequence_number}_{timestamp}"
+            
+            # Save accelerometer data
+            csv_filename = f"data/{filename_base}.csv"
+            try:
+                with open(csv_filename, 'w', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow(['Timestamp', 'X', 'Y', 'Z'])
+                    writer.writerows(all_data)
+            except Exception as e:
+                print(f"Error saving CSV: {e}")
+                continue
+            
+            # Capture and save image
+            ret, frame = cap.read()
+            if ret:
+                img_filename = f"images/{filename_base}.jpg"
+                try:
+                    cv2.imwrite(img_filename, frame)
+                    
+                    # Add to annotation data
+                    with data_lock:
+                        with open('annotations.csv', 'a', newline='') as ann_file:
+                            writer = csv.writer(ann_file)
+                            writer.writerow([filename_base, current_activity])
+                except Exception as e:
+                    print(f"Error saving image or annotation: {e}")
+            
+            # Reset for next interval
+            with data_lock:
+                all_data = []
+                sequence_number += 1
+
+        time.sleep(0.1)
+
+# Cleanup function
+def cleanup_on_exit():
+    global is_running, all_data, sequence_number, current_activity
+    if is_running:
+        print("Performing cleanup before exit...")
+        with open('annotations.csv', 'a', newline='') as file:
+            writer = csv.writer(file)
+            for data in all_data:
+                writer.writerow([f"{sequence_number}_{datetime.now().strftime('%Y%m%d%H%M%S')}", current_activity])
+        cap.release()
+        cv2.destroyAllWindows()
+
+atexit.register(cleanup_on_exit)
+
+# Dash app setup
+app = Dash(_name_)
+
+app.layout = html.Div([
+    html.H1("Activity Data Collection (15-20 sec per activity)"),
+    html.Div([
+        html.Div(id='current-activity', style={'fontSize': 24, 'margin': '20px', 'fontWeight': 'bold'}),
+        html.Div(id='activity-timer', style={'fontSize': 20, 'margin': '10px'}),
+        html.Button("No Activity", id="btn-no-activity", n_clicks=0, style={'margin': '10px', 'padding': '10px'}),
+        html.Button("Waving", id="btn-activity-1", n_clicks=0, style={'margin': '10px', 'padding': '10px'}),
+        html.Button("Shaking", id="btn-activity-2", n_clicks=0, style={'margin': '10px', 'padding': '10px'}),
+        html.Button("STOP Collection", id="btn-stop", n_clicks=0, 
+                   style={'margin': '10px', 'padding': '10px', 'background': 'red', 'color': 'white'})
+    ], style={'margin': '20px'}),
+    dcc.Graph(id='live-graph', style={'height': '400px'}),
+    html.Img(id='activity-image', style={'height': '400px', 'margin': '20px', 'border': '1px solid black'}),
+    dcc.Interval(id='interval-component', interval=1000),
+    html.Div(id='status-message', style={'margin': '20px', 'color': 'blue'})
+])
+
+# Main callback
+@app.callback(
+    [Output('live-graph', 'figure'),
+     Output('activity-image', 'src'),
+     Output('current-activity', 'children'),
+     Output('activity-timer', 'children'),
+     Output('status-message', 'children')],
+    [Input('interval-component', 'n_intervals')]
+)
+def update_dashboard(n):
+    global cur_data, activity_start_time, current_activity_duration
+    
+    time_remaining = max(0, current_activity_duration - (time.time() - activity_start_time))
+    timer_msg = f"Activity timer: {time_remaining:.1f}s remaining"
+    status_msg = f"Collecting: {ACTIVITIES[current_activity]}"
+    
+    # Create graph from current data
+    with data_lock:
+        if not cur_data:
+            return go.Figure(), "", f"Current Activity: {ACTIVITIES[current_activity]}", timer_msg, status_msg
+        
+        timestamps = [d[0] for d in cur_data]
+        x_values = [d[1] for d in cur_data]
+        y_values = [d[2] for d in cur_data]
+        z_values = [d[3] for d in cur_data]
+        
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=timestamps, 
+            y=x_values, 
+            mode='lines+markers', 
+            name='X'
+        ))
+        fig.add_trace(go.Scatter(
+            x=timestamps, 
+            y=y_values, 
+            mode='lines+markers', 
+            name='Y'
+        ))
+        fig.add_trace(go.Scatter(
+            x=timestamps, 
+            y=z_values, 
+            mode='lines+markers', 
+            name='Z'
+        ))
+        
+        fig.update_layout(
+            title=f'Live Accelerometer Data - {ACTIVITIES[current_activity]}',
+            xaxis_title='Timestamp',
+            yaxis_title='Acceleration (m/s²)',
+            margin=dict(l=40, r=20, t=60, b=40),
+            height=400
+        )
+    
+    # Get latest image
+    img_src = ""
+    if sequence_number > 1:
+        try:
+            latest_img = f"images/{sequence_number-1}_*.jpg"
+            img_files = sorted(glob.glob(latest_img))
+            if img_files:
+                with open(img_files[-1], 'rb') as f:
+                    img = Image.open(f)
+                    buffered = BytesIO()
+                    img.save(buffered, format="JPEG")
+                    img_str = base64.b64encode(buffered.getvalue()).decode()
+                    img_src = f"data:image/jpeg;base64,{img_str}"
+                    status_msg = f"Last saved: {os.path.basename(img_files[-1])}"
+        except Exception as e:
+            print(f"Error loading image: {e}")
+    
+    return fig, img_src, f"Current Activity: {ACTIVITIES[current_activity]}", timer_msg, status_msg
+
+# Activity buttons callback
+@app.callback(
+    [Output('btn-no-activity', 'n_clicks'),
+     Output('btn-activity-1', 'n_clicks'),
+     Output('btn-activity-2', 'n_clicks')],
+    [Input('btn-no-activity', 'n_clicks'),
+     Input('btn-activity-1', 'n_clicks'),
+     Input('btn-activity-2', 'n_clicks')]
+)
+def update_activity_buttons(btn1, btn2, btn3):
+    global current_activity, activity_start_time, current_activity_duration
+    
+    ctx = callback_context
+    if not ctx.triggered:
+        return [0, 0, 0]
+    
+    button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+    
+    if button_id == 'btn-no-activity':
+        current_activity = 0
+    elif button_id == 'btn-activity-1':
+        current_activity = 1
+    elif button_id == 'btn-activity-2':
+        current_activity = 2
+    
+    # Reset timer when manually changing activity
+    activity_start_time = time.time()
+    current_activity_duration = random.randint(*ACTIVITY_DURATION)
+    
+    return [0, 0, 0]
+
+# Stop button callback
+@app.callback(
+    Output('interval-component', 'disabled'),
+    [Input('btn-stop', 'n_clicks')]
+)
+def stop_collection(n_clicks):
+    global is_running
+    
+    if n_clicks > 0:
+        is_running = False
+        with data_lock:
+            cap.release()
+            cv2.destroyAllWindows()
+            print("Data collection stopped. Annotations saved to annotations.csv")
+        return True
+    
+    return False
+
+if _name_ == "_main_":
+    # Start data collection threads
+    data_thread = Thread(target=start_data_stream)
+    data_thread.daemon = True
+    data_thread.start()
+    
+    capture_thread = Thread(target=capture_and_save_data)
+    capture_thread.daemon = True
+    capture_thread.start()
+    
+    print(f"""
+    =============================================
+    Activity Data Collection Started
+    
+    Features:
+    - Each activity lasts 15-20 seconds
+    - Activities: No activity, Waving, Shaking
+    - Data saved every second
+    - CSV files in: data/
+    - Images in: images/
+    - Annotations in: annotations.csv
+    
+    Dashboard: http://127.0.0.1:8050
+    =============================================
+    """)
+    
+    # Run Dash app
+    app.run_server(debug=True, port=8050)
